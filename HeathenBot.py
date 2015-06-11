@@ -53,7 +53,8 @@ def convertKelvinToCelsius(tempToConvert, chan):
     message = tempToConvert + "K is " + str(round(float(tempToConvert) - 273.15)) + "C. . .Read a book."
     sendChanMsg(chan, message)
 
-def commandTree(ircData):
+#refusing to "commandTree" because fuck trees.
+def commandSmallShrub(ircData):
     logging.info(ircData)
     ircData = ircData.split(':')
     user = ircData[1].split('!')[0]
@@ -151,7 +152,7 @@ def commandTree(ircData):
             termToFuck = pattern.sub("", termToFuck).strip()
             sendChanMsg(channel, "Fuck " + termToFuck)
         elif "go fight" in command:
-            pattern = re.compile("go fight a |go fight ", re.IGNORECASE)
+            pattern = re.compile("go fight (an? )", re.IGNORECASE)
             termToFight = command.replace('.', '')
             termToFight = pattern.sub("", termToFight).strip()
             sendChanMsg(channel, termToFight + ", you are a nithing, I challenge you to holmgang! On an island! With tigers!")
@@ -176,8 +177,8 @@ def commandTree(ircData):
             sendChanMsg(channel, user + ", you're wrong, go read some lore.")
 
 logging.basicConfig(filename='log.log',level=logging.INFO)
-userString = "USER " + botnick + " " + botnick + " " + botnick + " :Pagan Bot for #Pagan\r\n"
 nickString = "NICK " + botnick + "\r\n"
+userString = "USER " + botnick + " " + botnick + " " + botnick + " :Pagan Bot for #Pagan\r\n"
 data = ""
 logging.info(userString)
 logging.info(nickString)
@@ -199,11 +200,11 @@ while 1:
     if "esper.net 001" in ircmsg:
         ircsock.send(userString.encode('utf-8'))
         ircsock.send(nickString.encode('utf-8'))
-        ircsock.send(('PRIVMSG :NickServ IDENTIFY HeathenBot1\r\n').encode('utf-8'))
+        ircsock.send(('PRIVMSG NickServ :IDENTIFY HeathenBot1\r\n').encode('utf-8'))
         joinChan(channel)
     if "heathenbot," in ircmsg.lower():
         try:
-            commandTree(ircmsg)
+            commandSmallShrub(ircmsg)
         except SystemExit:
             logging.info(sys.exc_info())
             sys.exit()
