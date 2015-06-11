@@ -118,16 +118,16 @@ def commandSmallShrub(ircData):
                 sendChanMsg(channel, "And he said 'Well, fuck,'")
                 sendChanMsg(channel, "It's cuz my schlong is so short it's a schlort.")
             if numberToSelect == 2:
-                sendChanMsg(channel, "Two maidens diverged in a bed, and I took the one less travelled on...and that, that has made me STD free."
+                sendChanMsg(channel, "Two maidens diverged in a bed, and I took the one less travelled on...and that, that has made me STD free.")
             if numberToSelect == 3:
-                sendChanMsg(channel, "I wake reluctant, too cold to get out of bed, but I need to pee."
+                sendChanMsg(channel, "I wake reluctant, too cold to get out of bed, but I need to pee.")
         
         elif "cheers" in command.lower():
             numberToSelect = random.randint(0, 3)
             if numberToSelect == 1:
-                sendChanMsg(channel, "Here’s to Hell! May my stay there be as much fun as my way there!"
+                sendChanMsg(channel, "Here’s to Hell! May my stay there be as much fun as my way there!")
             if numberToSelect == 2:
-                sendChanMsg(channel "One shot, two shots, three shots, four...if she's ugly we'll have 4 more."
+                sendChanMsg(channel "One shot, two shots, three shots, four...if she's ugly we'll have 4 more.")
             if numberToSelect == 3:
                 sendChanMsg(channel, "Here’s to honor…hitting honor, getting honor, staying honor…and if you can’t come in her… come honor.")
                 
