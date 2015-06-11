@@ -110,7 +110,7 @@ def commandSmallShrub(ircData):
             sendChanMsg(channel, "             |_|             ")
             
         elif "recite a poem" in command.lower():
-            numberToSelect = random.randint(0, 3)
+            numberToSelect = random.randint(0, 4)
             if numberToSelect == 1:
                 sendChanMsg(channel, "There once was a really good sport")
                 sendChanMsg(channel, "A man with a really big car port.")
@@ -123,11 +123,11 @@ def commandSmallShrub(ircData):
                 sendChanMsg(channel, "I wake reluctant, too cold to get out of bed, but I need to pee.")
         
         elif "cheers" in command.lower():
-            numberToSelect = random.randint(0, 3)
+            numberToSelect = random.randint(0, 4)
             if numberToSelect == 1:
                 sendChanMsg(channel, "Here’s to Hell! May my stay there be as much fun as my way there!")
             if numberToSelect == 2:
-                sendChanMsg(channel "One shot, two shots, three shots, four...if she's ugly we'll have 4 more.")
+                sendChanMsg(channel, "One shot, two shots, three shots, four...if she's ugly we'll have 4 more.")
             if numberToSelect == 3:
                 sendChanMsg(channel, "Here’s to honor…hitting honor, getting honor, staying honor…and if you can’t come in her… come honor.")
                 
@@ -211,7 +211,6 @@ def commandSmallShrub(ircData):
         elif (command.strip() == 'die' or command.strip() == 'stop' or command.strip() == 'quit' or command.strip() == 'kill') and (user in modList):
             writer = csv.writer(open('awfulPoints.csv', 'w', newline=''))
             for user, score in awfulPoints.items():
-                print(user + ": " + score) 
                 writer.writerow([user, score])
             sys.exit()
         else:
