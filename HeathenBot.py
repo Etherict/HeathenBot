@@ -4,13 +4,15 @@ import sys
 import time
 import random
 import re
+import operator
+import csv
 
 server = "irc.esper.net"
 channel = "#pagan"
 botnick  = "HeathenBot"
 modList = ['Etherict','hrafnblod','UsurpedLettuce','RyderHiME','HereticHierophant','manimatr0n','Anarcho-Transhuman','c_brighde','cmacis','MidDipper']
-userList = []
-awfulPoints = {}
+reader = csv.reader(open('awfulPoints.csv', 'r'))
+awfulPoints = dict(x for x in reader)
 
 #respond to server pings
 def ping(pingData):
@@ -20,7 +22,7 @@ def ping(pingData):
 
 #send private message
 def sendChanMsg(chan, msg):
-    ircsock.send(("PRIVMSG " + chan + " :" + msg + "\n").encode('utf-8'))
+    ircsock.send(("PRIVMSG " + chan + " :" + msg + "\r\n").encode('utf-8'))
 
 #join a channel
 def joinChan(chan):
@@ -106,7 +108,7 @@ def commandSmallShrub(ircData):
             sendChanMsg(channel, "  |-----------------------|  ")
             sendChanMsg(channel, "             |_|             ")
         elif "sing me a song" in command.lower():
-            numberToSelect = random.randint(0, 7)
+            numberToSelect = random.randint(0, 8)
             if numberToSelect == 1:
                 sendChanMsg(channel, "https://www.youtube.com/watch?v=dQw4w9WgXcQ")
             elif numberToSelect == 2:
@@ -119,6 +121,12 @@ def commandSmallShrub(ircData):
                 sendChanMsg(channel, "https://www.youtube.com/watch?v=XxYJmfjVwqA")
             elif numberToSelect == 6:
                 sendChanMsg(channel, "https://www.youtube.com/watch?v=xlUAjtduiqg")
+            elif numberToSelect == 7:
+                sendChanMsg(channel, "https://www.youtube.com/watch?v=UB8Qx_Hce1s")
+            elif numberToSelect == 8:
+                sendChanMsg(channel, "https://www.youtube.com/watch?v=2PhLze0fjDQ")
+        elif "show me some bullshit" in command.lower():
+            sendChanMsg(channel, "http://romandruid.blogspot.com/?m=0")
         elif "be quiet" in command.lower() and user in modList:
             periodToMute = command.split(' ')[-1]
             if periodToMute.lower().find('s') != -1:
@@ -171,7 +179,16 @@ def commandSmallShrub(ircData):
             else:
                 points = 0
             sendChanMsg(channel, pointee + " has " + str(points) + " awful points!")
+        elif "show me the awful scores" in command.lower():
+            sortedScores = sorted(awfulPoints.items(), key=operator.itemgetter(1))
+            sendChanMsg(channel, "Scoreboard:")
+            for user, score in sortedScores:
+                sendChanMsg(channel, user + ": " + str(score))
         elif (command.strip() == 'die' or command.strip() == 'stop' or command.strip() == 'quit' or command.strip() == 'kill') and (user in modList):
+            writer = csv.writer(open('awfulPoints.csv', 'w', newline=''))
+            for user, score in awfulPoints.items():
+                print(user + ": " + score) 
+                writer.writerow([user, score])
             sys.exit()
         else:
             sendChanMsg(channel, user + ", you're wrong, go read some lore.")
@@ -203,11 +220,11 @@ while 1:
         ircsock.send(('PRIVMSG NickServ :IDENTIFY HeathenBot1\r\n').encode('utf-8'))
         joinChan(channel)
     if "heathenbot," in ircmsg.lower():
-        try:
+        #try:
             commandSmallShrub(ircmsg)
-        except SystemExit:
-            logging.info(sys.exc_info())
-            sys.exit()
-        except:
-            sendChanMsg(channel, "Good job, you broke me. Dumbass.")
-            logging.info(sys.exc_info())
+        #except SystemExit:            
+            #logging.info(sys.exc_info())
+            #sys.exit()
+        #except:
+            #sendChanMsg(channel, "Good job, you broke me. Dumbass.")
+            #logging.info(sys.exc_info())
