@@ -209,22 +209,26 @@ while 1:
     ircmsg = ircmsg.strip(('\r\n').encode('utf-8'))
     logging.info(ircmsg)
     print(ircmsg)
-    ircmsg = ircmsg.decode('utf-8')
-    if "PING :" in ircmsg:
-        pingData = ircmsg.strip("PING :")
+    message = ''
+    try:
+        message = ircmsg.decode('utf-8')
+    except:
+        sendChanMsg(channel, "What kinda weird shit did you just say?")
+    if "PING :" in message:
+        pingData = message.strip("PING :")
         logging.info(pingData)
         ping(pingData)
-    if "esper.net 001" in ircmsg:
+    if "esper.net 001" in message:
         ircsock.send(userString.encode('utf-8'))
         ircsock.send(nickString.encode('utf-8'))
         ircsock.send(('PRIVMSG NickServ :IDENTIFY HeathenBot1\r\n').encode('utf-8'))
         joinChan(channel)
-    if "heathenbot," in ircmsg.lower():
-        #try:
-            commandSmallShrub(ircmsg)
-        #except SystemExit:            
-            #logging.info(sys.exc_info())
-            #sys.exit()
-        #except:
-            #sendChanMsg(channel, "Good job, you broke me. Dumbass.")
-            #logging.info(sys.exc_info())
+    if "heathenbot," in message.lower():
+        try:
+            commandSmallShrub(message)
+        except SystemExit:            
+            logging.info(sys.exc_info())
+            sys.exit()
+        except:
+            sendChanMsg(channel, "Good job, you broke me. Dumbass.")
+            logging.info(sys.exc_info())
