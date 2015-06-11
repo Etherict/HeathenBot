@@ -108,7 +108,6 @@ def commandSmallShrub(ircData):
             sendChanMsg(channel, "  |-----------------------|  ")
             sendChanMsg(channel, "  |-----------------------|  ")
             sendChanMsg(channel, "             |_|             ")
-            
         elif "recite a poem" in command.lower():
             numberToSelect = random.randint(0, 4)
             if numberToSelect == 1:
@@ -121,7 +120,6 @@ def commandSmallShrub(ircData):
                 sendChanMsg(channel, "Two maidens diverged in a bed, and I took the one less travelled on...and that, that has made me STD free.")
             if numberToSelect == 3:
                 sendChanMsg(channel, "I wake reluctant, too cold to get out of bed, but I need to pee.")
-        
         elif "cheers" in command.lower():
             numberToSelect = random.randint(0, 4)
             if numberToSelect == 1:
@@ -130,7 +128,6 @@ def commandSmallShrub(ircData):
                 sendChanMsg(channel, "One shot, two shots, three shots, four...if she's ugly we'll have 4 more.")
             if numberToSelect == 3:
                 sendChanMsg(channel, "Here’s to honor…hitting honor, getting honor, staying honor…and if you can’t come in her… come honor.")
-                
         elif "sing me a song" in command.lower():
             numberToSelect = random.randint(0, 8)
             if numberToSelect == 1:
