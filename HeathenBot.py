@@ -13,6 +13,7 @@ botnick  = "HeathenBot"
 modList = ['Etherict','hrafnblod','UsurpedLettuce','RyderHiME','HereticHierophant','manimatr0n','Anarcho-Transhuman','c_brighde','cmacis','MidDipper', 'EINARR_THE_BERSERKER']
 reader = csv.reader(open('awfulPoints.csv', 'r'))
 awfulPoints = dict(x for x in reader)
+awfulPoints = dict((k,int(v)) for k,v in awfulPoints.items())
 
 #respond to server pings
 def ping(pingData):
@@ -22,6 +23,7 @@ def ping(pingData):
 
 #send private message
 def sendChanMsg(chan, msg):
+    logging.info("Sending message: " + msg)
     ircsock.send(("PRIVMSG " + chan + " :" + msg + "\r\n").encode('utf-8'))
 
 #join a channel
@@ -202,6 +204,7 @@ def commandSmallShrub(ircData):
             sendChanMsg(channel, pointee + " has " + str(points) + " awful points!")
         elif "show me the awful scores" in command.lower():
             sortedScores = sorted(awfulPoints.items(), key=operator.itemgetter(1))
+            sortedScores.reverse()
             sendChanMsg(channel, "Scoreboard:")
             for user, score in sortedScores:
                 sendChanMsg(channel, user + ": " + str(score))
