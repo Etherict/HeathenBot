@@ -122,12 +122,10 @@ def commandSmallShrub(ircData):
             if numberToSelect == 4:
                 sendChanMsg(channel, "Here's to those who love us terribly. May they soon improve.")
             if numberToSelect == 5:
-                sendChanMsg(channel, "Here's to virgins and lesbians. Thanks for nuthin.")
-            if numberToSelect == 6:
                 sendChanMsg(channel, "Time is never wasted when you're wasted all the time.")
-            if numberToSelect == 7:
+            if numberToSelect == 6:
                 sendChanMsg(channel, "I don't have a drinking problem. I drink, I get drunk, I fall over...no problem.") 
-            if numberToSelect == 8:              
+            if numberToSelect == 7:              
                 sendChanMsg(channel, "Take everything in moderation, especially moderation.") 
                 
         elif "sing me a song" in command.lower():
