@@ -6,6 +6,7 @@ import random
 import re
 import operator
 import csv
+import datetime
 
 server = "irc.esper.net"
 channel = "#pagan"
@@ -18,12 +19,15 @@ awfulPoints = dict((k,int(v)) for k,v in awfulPoints.items())
 #respond to server pings
 def ping(pingData):
     pong = "PONG :" + pingData
-    logging.info(pong)
+    logMsg(pong)
     ircsock.send(pong.encode('utf-8'))
+
+def logMsg(msg):
+    logging.info(str(datetime.datetime.now()) + ": " + str(msg))
 
 #send private message
 def sendChanMsg(chan, msg):
-    logging.info("Sending message: " + msg)
+    logMsg("Sending message: " + msg)
     ircsock.send(("PRIVMSG " + chan + " :" + msg + "\r\n").encode('utf-8'))
 
 #join a channel
@@ -60,14 +64,14 @@ def convertKelvinToCelsius(tempToConvert, chan):
 
 #refusing to "commandTree" because fuck trees.
 def commandSmallShrub(ircData):
-    logging.info(ircData)
+    logMsg(ircData)
     ircData = ircData.split(':')
     user = ircData[1].split('!')[0]
     ircData = ircData[-1].split(',')
     command = ircData[-1]
     command = command.strip('.').strip()
-    logging.info("Command received: " + command)
-    logging.info('USER parsed as ' + user)
+    logMsg("Command received: " + command)
+    logMsg('USER parsed as ' + user)
     if user != 'HeathenBot':
         if "convert" in command.lower():
             tempToConvert = command.split(' ')[-1].lower()
@@ -206,6 +210,8 @@ def commandSmallShrub(ircData):
             sendChanMsg(channel, "Scoreboard:")
             for user, score in sortedScores:
                 sendChanMsg(channel, user + ": " + str(score))
+        elif "give me some meat in the comfort of my seat" in command.lower():
+            sendChanMsg(channel, "Choo choo! Hot dog train's a-comin'!")
         elif (command.strip() == 'die' or command.strip() == 'stop' or command.strip() == 'quit' or command.strip() == 'kill') and (user in modList):
             writer = csv.writer(open('awfulPoints.csv', 'w', newline=''))
             for user, score in awfulPoints.items():
@@ -214,12 +220,12 @@ def commandSmallShrub(ircData):
         else:
             sendChanMsg(channel, user + ", you're wrong, go read some lore.")
 
-logging.basicConfig(filename='log.log',level=logging.INFO)
+logging.basicConfig(filename='log' + str(datetime.datetime.now().date()) + '.log',level=logging.INFO)
 nickString = "NICK " + botnick + "\r\n"
 userString = "USER " + botnick + " " + botnick + " " + botnick + " :Pagan Bot for #Pagan\r\n"
 data = ""
-logging.info(userString)
-logging.info(nickString)
+logMsg(userString)
+logMsg(nickString)
 ircsock = socket.socket()
 ircsock.connect((server, 6667))
 ircsock.send(userString.encode('utf-8'))
@@ -228,7 +234,7 @@ joinChan(channel)
 while 1:
     ircmsg = ircsock.recv(2048)
     ircmsg = ircmsg.strip(('\r\n').encode('utf-8'))
-    logging.info(ircmsg)
+    logMsg(ircmsg)
     print(ircmsg)
     message = ''
     try:
@@ -237,7 +243,7 @@ while 1:
         sendChanMsg(channel, "What kinda weird shit did you just say?")
     if "PING :" in message:
         pingData = message.strip("PING :")
-        logging.info(pingData)
+        logMsg(pingData)
         ping(pingData)
     if "esper.net 001" in message:
         ircsock.send(userString.encode('utf-8'))
@@ -248,8 +254,8 @@ while 1:
         try:
             commandSmallShrub(message)
         except SystemExit:            
-            logging.info(sys.exc_info())
+            logMsg(sys.exc_info())
             sys.exit()
         except:
             sendChanMsg(channel, "Good job, you broke me. Dumbass.")
-            logging.info(sys.exc_info())
+            logMsg(sys.exc_info())
