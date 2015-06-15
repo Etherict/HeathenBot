@@ -12,9 +12,11 @@ server = "irc.esper.net"
 channel = "#pagan"
 botnick  = "HeathenBot"
 modList = ['Etherict','hrafnblod','UsurpedLettuce','RyderHiME','HereticHierophant','manimatr0n','Anarcho-Transhuman','c_brighde','cmacis','MidDipper', 'EINARR_THE_BERSERKER']
-reader = csv.reader(open('awfulPoints.csv', 'r'))
-awfulPoints = dict(x for x in reader)
+awfulReader = csv.reader(open('awfulPoints.csv', 'r'))
+awfulPoints = dict(x for x in awfulReader)
 awfulPoints = dict((k,int(v)) for k,v in awfulPoints.items())
+paganReader = csv.reader(open('paganTypes.csv', 'r'))
+paganTypes = dict(x for x in paganReader)
 
 #respond to server pings
 def ping(pingData):
@@ -212,10 +214,33 @@ def commandSmallShrub(ircData):
                 sendChanMsg(channel, user + ": " + str(score))
         elif "give me some meat in the comfort of my seat" in command.lower():
             sendChanMsg(channel, "Choo choo! Hot dog train's a-comin'!")
+        elif "is a" in command.lower():
+            splitCommand = command.split(" ")
+            personInQuestion = splitCommand[0]
+            paganType = ""
+            for i in range(2, len(splitCommand)):
+                paganType += splitCommand[i] + " "
+            if "heathen" in paganType:
+                sendChanMsg(channel, "Excellent, all is well.")
+            else:
+                sendChanMsg(channel, personInQuestion + " is wrong.")
+            paganType = paganType.strip()
+            paganTypes[personInQuestion] = paganType
+        elif "what type of pagan is" in command.lower() or "what kind of pagan is" in command.lower():
+            personInQuestion = command.strip("?").split(" ")[-1]
+            msg = personInQuestion + " is "
+            if personInQuestion in paganTypes:
+                msg += paganTypes[personInQuestion]
+            else:
+                msg += "an unregistered pagan. Please apprehend them immediately for enhanced heathen interrogation techniques."
+            sendChanMsg(channel, msg)
         elif (command.strip() == 'die' or command.strip() == 'stop' or command.strip() == 'quit' or command.strip() == 'kill') and (user in modList):
-            writer = csv.writer(open('awfulPoints.csv', 'w', newline=''))
+            awfulWriter = csv.writer(open('awfulPoints.csv', 'w', newline=''))
             for user, score in awfulPoints.items():
-                writer.writerow([user, score])
+                awfulWriter.writerow([user, score])
+            paganWriter = csv.writer(open('paganTypes.csv', 'w', newline=''))
+            for user, paganType in paganTypes.items():
+                paganWriter.writerow([user,paganType])
             sys.exit()
         else:
             sendChanMsg(channel, user + ", you're wrong, go read some lore.")
@@ -250,7 +275,7 @@ while 1:
         ircsock.send(nickString.encode('utf-8'))
         ircsock.send(('PRIVMSG NickServ :IDENTIFY HeathenBot1\r\n').encode('utf-8'))
         joinChan(channel)
-    if "heathenbot," in message.lower():
+    if "heathenbot," in message.lower() or "heathenbot:" in message.lower():
         try:
             commandSmallShrub(message)
         except SystemExit:            
