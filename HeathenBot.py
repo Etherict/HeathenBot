@@ -64,8 +64,91 @@ def convertKelvinToCelsius(tempToConvert, chan):
     message = tempToConvert + "K is " + str(round(float(tempToConvert) - 273.15)) + "C. . .Read a book."
     sendChanMsg(chan, message)
 
+def convertTemperatures(command, chan):
+    tempToConvert = command.split(' ')[-1].lower()
+    if tempToConvert.find('fc') != -1:
+        tempToConvert = tempToConvert.strip('fc')
+        convertFahrenheitToCelsius(tempToConvert, channel)
+    elif tempToConvert.find('fk') != -1:
+        tempToConvert = tempToConvert.strip('fk')
+        convertFahrenheitToKelvin(tempToConvert, channel)
+    elif tempToConvert.find('cf') != -1:
+        tempToConvert = tempToConvert.strip('cf')
+        convertCelsiusToFahrenheit(tempToConvert, channel)
+    elif tempToConvert.find('ck') != -1:
+        tempToConvert = tempToConvert.strip('ck')
+        convertCelsiusToKelvin(tempToConvert, channel)
+    elif tempToConvert.find('kf') != -1:
+        tempToConvert = tempToConvert.strip('kf')
+        convertKelvinToFahrenheit(tempToConvert, channel)
+    elif tempToConvert.find('kc') != -1:
+        tempToConvert = tempToConvert.strip('kc')
+        convertKelvinToCelsius(tempToConvert, channel)
+    else:
+        sendChanMsg(chan, "I'm sorry, I don't understand. Have you tried not being stupid?")
+def google(command, chan):
+    termToLMGTFY = command.lower().replace('google ', "").replace(' ', '%20')
+    sendChanMsg(channel, "Here you go, " + user + ", I did this incredibly difficult task for you: http://www.lmgtfy.com/?q=" + termToLMGTFY)
+
+def giveHammer(chan):
+    sendChanMsg(chan, "           .-----,           ")
+    sendChanMsg(chan, "           |-----|           ")
+    sendChanMsg(chan, "           |-----|           ")
+    sendChanMsg(chan, "           .-----,           ")
+    sendChanMsg(chan, "            |-|-|            ")
+    sendChanMsg(chan, "            |-|-|            ")
+    sendChanMsg(chan, "            |-|-|            ")
+    sendChanMsg(chan, "           |-----|           ")
+    sendChanMsg(chan, "          |-------|          ")
+    sendChanMsg(chan, "        |-----------|        ")
+    sendChanMsg(chan, "  |-----------------------|  ")
+    sendChanMsg(chan, "  |-----------------------|  ")
+    sendChanMsg(chan, "  |-----------------------|  ")
+    sendChanMsg(chan, "  |-----------------------|  ")
+    sendChanMsg(chan, "             |_|             ")
+
+def raiseCheers(chan):
+    numberToSelect = random.randint(0, 8)
+    if numberToSelect == 1:
+        sendChanMsg(chan, "Here’s to Hell! May my stay there be as much fun as my way there!")
+    if numberToSelect == 2:
+        sendChanMsg(chan, "One shot, two shots, three shots, four...if she's ugly we'll have 4 more.")
+    if numberToSelect == 3:
+        sendChanMsg(chan, "Here’s to honor…hitting honor, getting honor, staying honor…and if you can’t come in her… come honor.")
+    if numberToSelect == 4:
+        sendChanMsg(chan, "Here's to those who love us terribly. May they soon improve.")
+    if numberToSelect == 5:
+        sendChanMsg(chan, "Time is never wasted when you're wasted all the time.")
+    if numberToSelect == 6:
+        sendChanMsg(chan, "I don't have a drinking problem. I drink, I get drunk, I fall over...no problem.") 
+    if numberToSelect == 7:              
+        sendChanMsg(chan, "Take everything in moderation, especially moderation.")
+
+def singSong(numberToSelect, chan):
+    if numberToSelect == 1:
+        sendChanMsg(chan, "https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+    elif numberToSelect == 2:
+        sendChanMsg(chan, "https://www.youtube.com/watch?v=sdc0ZU0YRe4")
+    elif numberToSelect == 3:
+         sendChanMsg(chan, "https://www.youtube.com/watch?v=fu2bgwcv43o")
+    elif numberToSelect == 4:
+        sendChanMsg(chan, "https://www.youtube.com/watch?v=6NXnxTNIWkc")
+    elif numberToSelect == 5:
+        sendChanMsg(chan, "https://www.youtube.com/watch?v=XxYJmfjVwqA")
+    elif numberToSelect == 6:
+        sendChanMsg(chan, "https://www.youtube.com/watch?v=xlUAjtduiqg")
+    elif numberToSelect == 7:
+        sendChanMsg(chan, "https://www.youtube.com/watch?v=UB8Qx_Hce1s")
+    elif numberToSelect == 8:
+        sendChanMsg(chan, "https://www.youtube.com/watch?v=2PhLze0fjDQ")
+
+def saveDictToFile(filename, dictToSave):
+    fileWriter = csv.writer(open(fileName, 'w', newline=''))
+    for dictKey, dictValue in dictToSave.items():
+        fileWriter.writerow([dictKey, dictValue])
+        
 #refusing to "commandTree" because fuck trees.
-def commandSmallShrub(ircData):
+def commandSmallShrub(ircData, chan):
     logMsg(ircData)
     ircData = ircData.split(':')
     user = ircData[1].split('!')[0]
@@ -76,84 +159,16 @@ def commandSmallShrub(ircData):
     logMsg('USER parsed as ' + user)
     if user != 'HeathenBot':
         if "convert" in command.lower():
-            tempToConvert = command.split(' ')[-1].lower()
-            if tempToConvert.find('fc') != -1:
-                tempToConvert = tempToConvert.strip('fc')
-                convertFahrenheitToCelsius(tempToConvert, channel)
-            elif tempToConvert.find('fk') != -1:
-                tempToConvert = tempToConvert.strip('fk')
-                convertFahrenheitToKelvin(tempToConvert, channel)
-            elif tempToConvert.find('cf') != -1:
-                tempToConvert = tempToConvert.strip('cf')
-                convertCelsiusToFahrenheit(tempToConvert, channel)
-            elif tempToConvert.find('ck') != -1:
-                tempToConvert = tempToConvert.strip('ck')
-                convertCelsiusToKelvin(tempToConvert, channel)
-            elif tempToConvert.find('kf') != -1:
-                tempToConvert = tempToConvert.strip('kf')
-                convertKelvinToFahrenheit(tempToConvert, channel)
-            elif tempToConvert.find('kc') != -1:
-                tempToConvert = tempToConvert.strip('kc')
-                convertKelvinToCelsius(tempToConvert, channel)
-            else:
-                sendChanMsg(channel, "I'm sorry, I don't understand. Have you tried not being stupid?")
+            convertTemperatures(command, chan)
         elif "google" in command.lower():
-            termToLMGTFY = command.lower().replace('google ', "").replace(' ', '%20')
-            sendChanMsg(channel, "Here you go, " + user + ", I did this incredibly difficult task for you: http://www.lmgtfy.com/?q=" + termToLMGTFY)
+            google(command, chan)
         elif "give me a hammer" in command.lower():
-            sendChanMsg(channel, "           .-----,           ")
-            sendChanMsg(channel, "           |-----|           ")
-            sendChanMsg(channel, "           |-----|           ")
-            sendChanMsg(channel, "           .-----,           ")
-            sendChanMsg(channel, "            |-|-|            ")
-            sendChanMsg(channel, "            |-|-|            ")
-            sendChanMsg(channel, "            |-|-|            ")
-            sendChanMsg(channel, "           |-----|           ")
-            sendChanMsg(channel, "          |-------|          ")
-            sendChanMsg(channel, "        |-----------|        ")
-            sendChanMsg(channel, "  |-----------------------|  ")
-            sendChanMsg(channel, "  |-----------------------|  ")
-            sendChanMsg(channel, "  |-----------------------|  ")
-            sendChanMsg(channel, "  |-----------------------|  ")
-            sendChanMsg(channel, "             |_|             ")
-            
+            giveHammer(chan)
         elif "cheers" in command.lower():
-            numberToSelect = random.randint(0, 8)
-            if numberToSelect == 1:
-                sendChanMsg(channel, "Here’s to Hell! May my stay there be as much fun as my way there!")
-            if numberToSelect == 2:
-                sendChanMsg(channel, "One shot, two shots, three shots, four...if she's ugly we'll have 4 more.")
-            if numberToSelect == 3:
-                sendChanMsg(channel, "Here’s to honor…hitting honor, getting honor, staying honor…and if you can’t come in her… come honor.")
-            if numberToSelect == 4:
-                sendChanMsg(channel, "Here's to those who love us terribly. May they soon improve.")
-            if numberToSelect == 5:
-                sendChanMsg(channel, "Time is never wasted when you're wasted all the time.")
-            if numberToSelect == 6:
-                sendChanMsg(channel, "I don't have a drinking problem. I drink, I get drunk, I fall over...no problem.") 
-            if numberToSelect == 7:              
-                sendChanMsg(channel, "Take everything in moderation, especially moderation.") 
-                
+            raiseCheers(chan)
         elif "sing me a song" in command.lower():
             numberToSelect = random.randint(0, 8)
-            if numberToSelect == 1:
-                sendChanMsg(channel, "https://www.youtube.com/watch?v=dQw4w9WgXcQ")
-            elif numberToSelect == 2:
-                sendChanMsg(channel, "https://www.youtube.com/watch?v=sdc0ZU0YRe4")
-            elif numberToSelect == 3:
-                 sendChanMsg(channel, "https://www.youtube.com/watch?v=fu2bgwcv43o")
-            elif numberToSelect == 4:
-                sendChanMsg(channel, "https://www.youtube.com/watch?v=6NXnxTNIWkc")
-            elif numberToSelect == 5:
-                sendChanMsg(channel, "https://www.youtube.com/watch?v=XxYJmfjVwqA")
-            elif numberToSelect == 6:
-                sendChanMsg(channel, "https://www.youtube.com/watch?v=xlUAjtduiqg")
-            elif numberToSelect == 7:
-                sendChanMsg(channel, "https://www.youtube.com/watch?v=UB8Qx_Hce1s")
-            elif numberToSelect == 8:
-                sendChanMsg(channel, "https://www.youtube.com/watch?v=2PhLze0fjDQ")
-        elif "show me some bullshit" in command.lower():
-            sendChanMsg(channel, "http://romandruid.blogspot.com/?m=0")
+            singSong(numberToSelect, chan)
         elif "be quiet" in command.lower() and user in modList:
             periodToMute = command.split(' ')[-1]
             if periodToMute.lower().find('s') != -1:
@@ -212,8 +227,6 @@ def commandSmallShrub(ircData):
             sendChanMsg(channel, "Scoreboard:")
             for user, score in sortedScores:
                 sendChanMsg(channel, user + ": " + str(score))
-        elif "give me some meat in the comfort of my seat" in command.lower():
-            sendChanMsg(channel, "Choo choo! Hot dog train's a-comin'!")
         elif "is a" in command.lower():
             splitCommand = command.split(" ")
             personInQuestion = splitCommand[0]
@@ -235,12 +248,6 @@ def commandSmallShrub(ircData):
                 msg += "an unregistered pagan. Please apprehend them immediately for enhanced heathen interrogation techniques."
             sendChanMsg(channel, msg)
         elif (command.strip() == 'die' or command.strip() == 'stop' or command.strip() == 'quit' or command.strip() == 'kill') and (user in modList):
-            awfulWriter = csv.writer(open('awfulPoints.csv', 'w', newline=''))
-            for user, score in awfulPoints.items():
-                awfulWriter.writerow([user, score])
-            paganWriter = csv.writer(open('paganTypes.csv', 'w', newline=''))
-            for user, paganType in paganTypes.items():
-                paganWriter.writerow([user,paganType])
             sys.exit()
         else:
             sendChanMsg(channel, user + ", you're wrong, go read some lore.")
@@ -277,8 +284,10 @@ while 1:
         joinChan(channel)
     if "heathenbot," in message.lower() or "heathenbot:" in message.lower():
         try:
-            commandSmallShrub(message)
-        except SystemExit:            
+            commandSmallShrub(message, channel)
+        except SystemExit:
+            saveDictToFile('awfulpoints.csv', awfulPoints)
+            saveDictToFile('paganTypes.csv', paganTypes)
             logMsg(sys.exc_info())
             sys.exit()
         except:
