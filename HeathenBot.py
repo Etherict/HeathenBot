@@ -86,7 +86,7 @@ def convertTemperatures(command, chan):
         convertKelvinToCelsius(tempToConvert, channel)
     else:
         sendChanMsg(chan, "I'm sorry, I don't understand. Have you tried not being stupid?")
-def google(command, chan):
+def google(command, chan, user):
     termToLMGTFY = command.lower().replace('google ', "").replace(' ', '%20')
     sendChanMsg(channel, "Here you go, " + user + ", I did this incredibly difficult task for you: http://www.lmgtfy.com/?q=" + termToLMGTFY)
 
@@ -161,7 +161,7 @@ def commandSmallShrub(ircData, chan):
         if "convert" in command.lower():
             convertTemperatures(command, chan)
         elif "google" in command.lower():
-            google(command, chan)
+            google(command, chan, user)
         elif "give me a hammer" in command.lower():
             giveHammer(chan)
         elif "cheers" in command.lower():
