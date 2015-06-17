@@ -20,7 +20,7 @@ paganReader = csv.reader(open('paganTypes.csv', 'r'))
 paganTypes = dict(x for x in paganReader)    
 
 #refusing to "commandTree" because fuck trees.
-def commandSmallShrub(ircData, chan, listOfMods, ircs):
+def commandSmallShrub(ircData, chan, listOfMods, ircs, awfulPoints, paganTypes):
     logMsg(ircData)
     ircData = ircData.split(':')
     user = ircData[1].split('!')[0]
@@ -43,7 +43,7 @@ def commandSmallShrub(ircData, chan, listOfMods, ircs):
         elif "be quiet" in command.lower() and user in listOfMods:
             muteBot(command)
         elif "help" in command.lower():
-            sendHelpToUser(user, listOfMods, ircs)
+            sendHelpToUser(user, chan, listOfMods, ircs)
         elif "who's a mod" in command.lower().strip('?'):
             listMods(chan, listOfMods, ircs)
         elif "how do you feel about" in command.lower().strip('?'):
@@ -55,7 +55,7 @@ def commandSmallShrub(ircData, chan, listOfMods, ircs):
         elif "how many awful points does" in command.lower():
             getUserAwfulPoints(command, chan, awfulPoints, ircs)
         elif "show me the awful scores" in command.lower():
-            listAwfulScores(awfulPoints, chan, awfulPoints, ircs)
+            listAwfulScores(awfulPoints, chan, ircs)
         elif "is a" in command.lower():
             paganTypes = assignPaganType(command, chan, paganTypes, ircs)
         elif "what type of pagan is" in command.lower() or "what kind of pagan is" in command.lower() or "what sort of pagan is" in command.lower() or "who is" in command.lower():
@@ -97,7 +97,7 @@ while 1:
         joinChan(channel, ircsock)
     if "heathenbot," in message.lower() or "heathenbot:" in message.lower():
         try:
-            commandSmallShrub(message, channel, modList, ircsock)
+            commandSmallShrub(message, channel, modList, ircsock, awfulPoints, paganTypes)
         except SystemExit:
             saveDictToFile('awfulpoints.csv', awfulPoints)
             saveDictToFile('paganTypes.csv', paganTypes)

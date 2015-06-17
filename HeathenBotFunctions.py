@@ -117,7 +117,7 @@ def raiseCheers(chan, ircs):
     if numberToSelect == 7:              
         sendChanMsg(chan, "Take everything in moderation, especially moderation.", ircs)
 
-def singSong(numberToSelect, chan, ircs):
+def singSong(chan, ircs):
     numberToSelect = random.randint(0, 8)
     if numberToSelect == 1:
         sendChanMsg(chan, "https://www.youtube.com/watch?v=dQw4w9WgXcQ", ircs)
@@ -149,7 +149,7 @@ def muteBot(command):
     else:
         mute(float(periodToMute * 60))
 
-def sendHelpToUser(user, listOfMods, ircs):
+def sendHelpToUser(user, chan, listOfMods, ircs):
     sendChanMsg(chan, user + ' is an ergi who needs help!', ircs)
     sendChanMsg(user, "List of commands is as follows:\r\n", ircs)
     sendChanMsg(user, "Convert <number>FC, Convert Fahrenheit to Celsius.\r\n", ircs)
@@ -201,9 +201,9 @@ def getUserAwfulPoints(command, chan, awfulPoints, ircs):
     sendChanMsg(chan, pointee + " has " + str(points) + " awful points!", ircs)
 
 def listAwfulScores(awfulPoints, chan, ircs):
-    sortedScores = sorted(aPoints.items(), key=operator.itemgetter(1))
+    sortedScores = sorted(awfulPoints.items(), key=operator.itemgetter(1))
     sortedScores.reverse()
-    sendChanMsg(channel, "Scoreboard:")
+    sendChanMsg(chan, "Scoreboard:", ircs)
     for user, score in sortedScores:
         sendChanMsg(chan, user + ": " + str(score), ircs)
 
