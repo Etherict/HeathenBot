@@ -81,7 +81,7 @@ def convertTemperatures(command, chan, ircs):
         
 def google(command, chan, user, ircs):
     termToLMGTFY = command.lower().replace('google ', "").replace(' ', '%20')
-    sendChanMsg(channel, "Here you go, " + user + ", I did this incredibly difficult task for you: http://www.lmgtfy.com/?q=" + termToLMGTFY, ircs)
+    sendChanMsg(chan, "Here you go, " + user + ", I did this incredibly difficult task for you: http://www.lmgtfy.com/?q=" + termToLMGTFY, ircs)
 
 def giveHammer(chan, ircs):
     sendChanMsg(chan, "           .-----,           ", ircs)
