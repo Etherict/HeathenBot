@@ -213,7 +213,7 @@ def assignPaganType(command, chan, paganTypes, ircs):
     paganType = ""
     for i in range(2, len(splitCommand)):
         paganType += splitCommand[i] + " "
-    if "heathen" in paganType:
+    if "heathen" in paganType.lower():
         sendChanMsg(chan, "Excellent, all is well.", ircs)
     else:
         sendChanMsg(chan, personInQuestion + " is wrong.", ircs)

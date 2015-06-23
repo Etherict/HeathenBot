@@ -56,7 +56,7 @@ def commandSmallShrub(ircData, chan, listOfMods, ircs, awfulPoints, paganTypes):
             getUserAwfulPoints(command, chan, awfulPoints, ircs)
         elif "show me the awful scores" in command.lower():
             listAwfulScores(awfulPoints, chan, ircs)
-        elif "is a" in command.lower():
+        elif re.match('^((?!who)\S+) is (.+)', command.strip(), flags=re.IGNORECASE):
             paganTypes = assignPaganType(command, chan, paganTypes, ircs)
         elif "what type of pagan is" in command.lower() or "what kind of pagan is" in command.lower() or "what sort of pagan is" in command.lower() or "who is" in command.lower():
             retrievePaganType(command, chan, paganTypes, ircs)
