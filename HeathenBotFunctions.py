@@ -17,6 +17,7 @@ def logMsg(msg):
 def ping(pingData, ircs):
     pong = "PONG :" + pingData
     logMsg(pong)
+    pong = pong + '\r\n'
     ircs.send(pong.encode('utf-8'))
 
 #send private message
