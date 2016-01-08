@@ -95,7 +95,7 @@ while 1:
         ircsock.send(nickString.encode('utf-8'))
         ircsock.send(('PRIVMSG NickServ :IDENTIFY HeathenBot1\r\n').encode('utf-8'))
         joinChan(channel, ircsock)
-    if "heathenbot," in message.lower() or "heathenbot:" in message.lower():
+    if botnick.lower() + "," in message.lower() or botnick.lower() + ":" in message.lower():
         try:
             commandSmallShrub(message, channel, modList, ircsock, awfulPoints, paganTypes)
         except SystemExit:

@@ -104,11 +104,11 @@ def giveHammer(chan, ircs):
 def raiseCheers(chan, ircs):
     numberToSelect = random.randint(0, 8)
     if numberToSelect == 1:
-        sendChanMsg(chan, "Here’s to Hell! May my stay there be as much fun as my way there!", ircs)
+        sendChanMsg(chan, "Here's to Hell! May my stay there be as much fun as my way there!", ircs)
     if numberToSelect == 2:
         sendChanMsg(chan, "One shot, two shots, three shots, four...if she's ugly we'll have 4 more.", ircs)
     if numberToSelect == 3:
-        sendChanMsg(chan, "Here’s to honor…hitting honor, getting honor, staying honor…and if you can’t come in her… come honor.", ircs)
+        sendChanMsg(chan, "Here's to honor...hitting honor, getting honor, staying honor...and if you can't come in her...come honor.", ircs)
     if numberToSelect == 4:
         sendChanMsg(chan, "Here's to those who love us terribly. May they soon improve.", ircs)
     if numberToSelect == 5:
