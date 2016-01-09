@@ -119,7 +119,7 @@ def raiseCheers(chan, ircs):
         sendChanMsg(chan, "Take everything in moderation, especially moderation.", ircs)
 
 def singSong(chan, ircs):
-    numberToSelect = random.randint(0, 8)
+    numberToSelect = random.randint(0, 9)
     if numberToSelect == 1:
         sendChanMsg(chan, "https://www.youtube.com/watch?v=dQw4w9WgXcQ", ircs)
     elif numberToSelect == 2:
@@ -136,6 +136,8 @@ def singSong(chan, ircs):
         sendChanMsg(chan, "https://www.youtube.com/watch?v=UB8Qx_Hce1s", ircs)
     elif numberToSelect == 8:
         sendChanMsg(chan, "https://www.youtube.com/watch?v=2PhLze0fjDQ", ircs)
+	elif numberToSelect == 9:
+		sendChanMsg(chan, "https://www.youtube.com/watch?v=J599h8ADmRI", ircs)
 
 def saveDictToFile(fileName, dictToSave):
     fileWriter = csv.writer(open(fileName, 'w', newline=''))
