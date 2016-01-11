@@ -126,7 +126,6 @@ def singSong(chan, ircs):
 		,"https://www.youtube.com/watch?v=XxYJmfjVwqA"
 		,"https://www.youtube.com/watch?v=xlUAjtduiqg"
 		,"https://www.youtube.com/watch?v=UB8Qx_Hce1s"
-		,"https://www.youtube.com/watch?v=2PhLze0fjDQ"
 		,"https://www.youtube.com/watch?v=J599h8ADmRI"
 		,"https://www.youtube.com/watch?v=mKNIHaBCkcw"
 		,"https://www.youtube.com/watch?v=jAukGWuVyEo"
