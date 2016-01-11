@@ -119,26 +119,24 @@ def raiseCheers(chan, ircs):
         sendChanMsg(chan, "Take everything in moderation, especially moderation.", ircs)
 
 def singSong(chan, ircs):
-    numberToSelect = random.randint(0, 9)
-    if numberToSelect == 1:
-        sendChanMsg(chan, "https://www.youtube.com/watch?v=dQw4w9WgXcQ", ircs)
-    elif numberToSelect == 2:
-        sendChanMsg(chan, "https://www.youtube.com/watch?v=sdc0ZU0YRe4", ircs)
-    elif numberToSelect == 3:
-        sendChanMsg(chan, "https://www.youtube.com/watch?v=fu2bgwcv43o", ircs)
-    elif numberToSelect == 4:
-        sendChanMsg(chan, "https://www.youtube.com/watch?v=6NXnxTNIWkc", ircs)
-    elif numberToSelect == 5:
-        sendChanMsg(chan, "https://www.youtube.com/watch?v=XxYJmfjVwqA", ircs)
-    elif numberToSelect == 6:
-        sendChanMsg(chan, "https://www.youtube.com/watch?v=xlUAjtduiqg", ircs)
-    elif numberToSelect == 7:
-        sendChanMsg(chan, "https://www.youtube.com/watch?v=UB8Qx_Hce1s", ircs)
-    elif numberToSelect == 8:
-        sendChanMsg(chan, "https://www.youtube.com/watch?v=2PhLze0fjDQ", ircs)
-	elif numberToSelect == 9:
-		sendChanMsg(chan, "https://www.youtube.com/watch?v=J599h8ADmRI", ircs)
-
+	songs = ["https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+		,"https://www.youtube.com/watch?v=sdc0ZU0YRe4"
+		,"https://www.youtube.com/watch?v=fu2bgwcv43o"
+		,"https://www.youtube.com/watch?v=6NXnxTNIWkc"
+		,"https://www.youtube.com/watch?v=XxYJmfjVwqA"
+		,"https://www.youtube.com/watch?v=xlUAjtduiqg"
+		,"https://www.youtube.com/watch?v=UB8Qx_Hce1s"
+		,"https://www.youtube.com/watch?v=2PhLze0fjDQ"
+		,"https://www.youtube.com/watch?v=J599h8ADmRI"
+		,"https://www.youtube.com/watch?v=mKNIHaBCkcw"
+		,"https://www.youtube.com/watch?v=jAukGWuVyEo"
+		,"https://www.youtube.com/watch?v=qw2-gbsMy7k"
+		,"https://www.youtube.com/watch?v=jsdawgd0azk"
+		,"https://www.youtube.com/watch?v=aSz1eZXpMKY"
+	]
+	numberToSelect = random.randint(-1, len(songs))
+	sendChanMsg(chan, songs[numberToSelect], ircs)
+	
 def saveDictToFile(fileName, dictToSave):
     fileWriter = csv.writer(open(fileName, 'w', newline=''))
     for dictKey, dictValue in dictToSave.items():
