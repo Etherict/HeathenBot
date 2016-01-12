@@ -100,7 +100,7 @@ while 1:
         joinChan(channel, ircsock)
     if botnick.lower() + "," in message.lower() or botnick.lower() + ":" in message.lower():
         try:
-            commandSmallShrub(message, channel, modList, ircsock, awfulPoints, paganTypes)
+            commandTree(message, channel, modList, ircsock, awfulPoints, paganTypes)
         except SystemExit:
             saveDictToFile('awfulpoints.csv', awfulPoints)
             saveDictToFile('paganTypes.csv', paganTypes)
