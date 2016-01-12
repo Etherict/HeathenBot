@@ -23,11 +23,15 @@ def commandTree(ircData, chan, listOfMods, ircs, awfulPoints, paganTypes):
     logMsg(ircData)
     ircData = ircData.split(':')
     for datum in ircData:
+		logMsg("FIRST MESSAGE ********")
         logMsg(datum)
+		logMsg("FIRST MESSAGE DATA END *********")
     user = ircData[1].split('!')[0]
     ircData = ircData[-1].split(',')
     for datum in ircData:
+		logMsg("SECOND MESSAGE*******")
         logMsg(datum)
+		logMsg("SECOND MESSAGE DATA END*******")
     command = ircData[-1]
     command = command.strip('.').strip()
     logMsg("Command received: " + command)
