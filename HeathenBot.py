@@ -66,7 +66,7 @@ def commandTree(ircData, chan, listOfMods, ircs, awfulPoints, paganTypes):
         elif (command.strip() == 'die' or command.strip() == 'stop' or command.strip() == 'quit' or command.strip() == 'kill') and (user in listOfMods):
             sys.exit()
         else:
-            sendChanMsg(channel, user + ", you're wrong, go read some lore.", ircs)
+            sendChanMsg(chan, user + ", you're wrong, go read some lore.", ircs)
 
 
 nickString = "NICK " + botnick + "\r\n"
