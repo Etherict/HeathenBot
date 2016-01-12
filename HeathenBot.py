@@ -22,13 +22,7 @@ paganTypes = dict(x for x in paganReader)
 def commandTree(ircData, chan, listOfMods, ircs, awfulPoints, paganTypes):
     logMsg(ircData)
     ircData = ircData.split(':')
-    for datum in ircData:
-        logMsg("FIRST MESSAGE ********")
-        logMsg(datum)
-        logMsg("FIRST MESSAGE DATA END *********")
-    logMsg("BEGIN SECOND DATA SET!!!!!!!")
-    for datum in ircData[1].split(' '):
-        logMsg(datum)
+    chan = ircData[1].split(' ')[2]
     logMsg("channel parsed as: " + chan)
     user = ircData[1].split('!')[0]
     ircData = ircData[-1].split(',')
