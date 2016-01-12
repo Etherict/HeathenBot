@@ -12,19 +12,22 @@ from HeathenBotFunctions import *
 server = "irc.esper.net"
 channel = "#pagan"
 botnick  = "HeathenBot"
-modList = ['Etherict','hrafnblod','UsurpedLettuce','RyderHiME','HereticHierophant','manimatr0n','Anarcho-Transhuman','c_brighde','cmacis','MidDipper', 'EINARR_THE_BERSERKER']
+modList = ['Etherict','hrafnblod','UsurpedLettuce','RyderHiME','HereticHierophant','manimatr0n','c_brighde','cmacis','MidDipper']
 awfulReader = csv.reader(open('awfulPoints.csv', 'r'))
 awfulPoints = dict(x for x in awfulReader)
 awfulPoints = dict((k,int(v)) for k,v in awfulPoints.items())
 paganReader = csv.reader(open('paganTypes.csv', 'r'))
 paganTypes = dict(x for x in paganReader)    
 
-#refusing to "commandTree" because fuck trees.
-def commandSmallShrub(ircData, chan, listOfMods, ircs, awfulPoints, paganTypes):
+def commandTree(ircData, chan, listOfMods, ircs, awfulPoints, paganTypes):
     logMsg(ircData)
     ircData = ircData.split(':')
+    for datum in ircData:
+        logMsg(datum)
     user = ircData[1].split('!')[0]
     ircData = ircData[-1].split(',')
+    for datum in ircData:
+        logMsg(datum)
     command = ircData[-1]
     command = command.strip('.').strip()
     logMsg("Command received: " + command)
@@ -38,7 +41,7 @@ def commandSmallShrub(ircData, chan, listOfMods, ircs, awfulPoints, paganTypes):
             giveHammer(chan, ircs)
         elif "cheers" in command.lower():
             raiseCheers(chan, ircs)
-        elif "sing me a song" in command.lower():            
+        elif "sing me a song" in command.lower():  
             singSong(chan, ircs)
         elif "be quiet" in command.lower() and user in listOfMods:
             muteBot(command)
