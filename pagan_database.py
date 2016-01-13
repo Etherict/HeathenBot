@@ -66,7 +66,7 @@ def close_database():
   conn.close()
 
 try:
-    create_database()
+    create_table()
     logMsg("Created Database")
 except:
     logMsg("Database exists")
