@@ -33,14 +33,14 @@ def get_pagan(name, chan, ircs):
   try:
     sendChanMsg(chan, name +" is a "+c.fetchone()[0], ircs)
   except:
-    sendChanMsg(chan, name+" does not seem to exist", ircs)
+    sendChanMsg(chan, name+" is not a registered pagan. Probably a filthy eclectic.", ircs)
     
 def get_awfulpoints(name, chan, ircs):
   c.execute("SELECT AwfulPoints FROM pagans WHERE Name = ?",[name])
   try:
     sendChanMsg(chan, name + " has "+str(c.fetchone()[0])+" awful points", ircs)
   except:
-    sendChanMsg(chan, name+" does not seem to exist", ircs)
+    sendChanMsg(chan, name+" is not a registered pagan. Please register them, so you can tell us how awful they are!", ircs)
 
 def get_all_awfulpoints(chan, ircs):
     rows=c.execute("SELECT Name, Awfulpoints FROM pagans")
