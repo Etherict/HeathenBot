@@ -11,9 +11,8 @@ from HeathenBotFunctions import *
 from IRC_functions import *
 
 server = "irc.esper.net"
-<<<<<<< HEAD
-channel = "#HB_testing"
-botnick  = "HB"
+channel = "#pagan"
+botnick  = "HeathenBot"
 modList = ['jimr1603','Etherict','hrafnblod','UsurpedLettuce','RyderHiME','HereticHierophant','manimatr0n','Anarcho-Transhuman','c_brighde','cmacis','MidDipper', 'EINARR_THE_BERSERKER']
 ##awfulReader = csv.reader(open('awfulPoints.csv', 'r'))
 ##awfulPoints = dict(x for x in awfulReader)
@@ -23,30 +22,14 @@ modList = ['jimr1603','Etherict','hrafnblod','UsurpedLettuce','RyderHiME','Heret
 
 #refusing to "commandTree" because fuck trees.
 def commandSmallShrub(ircData, chan, listOfMods, ircs):
-=======
-channel = "#pagan"
-botnick  = "HeathenBot"
-modList = ['Etherict','hrafnblod','UsurpedLettuce','RyderHiME','HereticHierophant','manimatr0n','c_brighde','cmacis','MidDipper']
-awfulReader = csv.reader(open('awfulPoints.csv', 'r'))
-awfulPoints = dict(x for x in awfulReader)
-awfulPoints = dict((k,int(v)) for k,v in awfulPoints.items())
-paganReader = csv.reader(open('paganTypes.csv', 'r'))
-paganTypes = dict(x for x in paganReader)    
-
-def commandTree(ircData, chan, listOfMods, ircs, awfulPoints, paganTypes):
->>>>>>> 3cf75079d120504003fa0ff0893a979c7d7382bc
     logMsg(ircData)
     ircData = ircData.split(':')
-    chan = ircData[1].split(' ')[2]
-    logMsg("channel parsed as: " + chan)
     user = ircData[1].split('!')[0]
     ircData = ircData[-1].split(',')
     command = ircData[-1]
     command = command.strip('.').strip()
     logMsg("Command received: " + command)
     logMsg('USER parsed as ' + user)
-    if chan == 'HeathenBot':
-        chan = user
     if user != 'HeathenBot':
         if "convert" in command.lower():
             convertTemperatures(command, chan, ircs)
@@ -56,7 +39,7 @@ def commandTree(ircData, chan, listOfMods, ircs, awfulPoints, paganTypes):
             giveHammer(chan, ircs)
         elif "cheers" in command.lower():
             raiseCheers(chan, ircs)
-        elif "sing me a song" in command.lower():  
+        elif "sing me a song" in command.lower():            
             singSong(chan, ircs)
         elif "be quiet" in command.lower() and user in listOfMods:
             muteBot(command)
@@ -83,7 +66,7 @@ def commandTree(ircData, chan, listOfMods, ircs, awfulPoints, paganTypes):
         elif (command.strip() == 'die' or command.strip() == 'stop' or command.strip() == 'quit' or command.strip() == 'kill') and (user in listOfMods):
             sys.exit()
         else:
-            sendChanMsg(chan, user + ", you're wrong, go read some lore.", ircs)
+            sendChanMsg(channel, user + ", you're wrong, go read some lore.", ircs)
 
 
 nickString = "NICK " + botnick + "\r\n"
@@ -117,11 +100,7 @@ while 1:
         joinChan(channel, ircsock)
     if botnick.lower() + "," in message.lower() or botnick.lower() + ":" in message.lower():
         try:
-<<<<<<< HEAD
             commandSmallShrub(message, channel, modList, ircsock)
-=======
-            commandTree(message, channel, modList, ircsock, awfulPoints, paganTypes)
->>>>>>> 3cf75079d120504003fa0ff0893a979c7d7382bc
         except SystemExit:
             close_database()
             logMsg(sys.exc_info())
