@@ -157,7 +157,7 @@ def tellYourFeels(command, chan, ircs):
     sendChanMsg(chan, "Fuck " + termToFuck, ircs)
 
 def fightSomething(command, chan, ircs):
-    pattern = re.compile("go fight (an? )", re.IGNORECASE)
+    pattern = re.compile("go fight (a?n? ?)", re.IGNORECASE)
     termToFight = command.replace('.', '')
     termToFight = pattern.sub("", termToFight).strip()
     sendChanMsg(chan, termToFight + ", you are a nithing, I challenge you to holmgang! On an island! With tigers!", ircs)
