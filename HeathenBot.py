@@ -5,22 +5,23 @@ import time
 import random
 import re
 import operator
-import csv
 import datetime
+
 from HeathenBotFunctions import *
+from IRC_functions import *
 
 server = "irc.esper.net"
-channel = "#pagan"
-botnick  = "HeathenBot"
-modList = ['Etherict','hrafnblod','UsurpedLettuce','RyderHiME','HereticHierophant','manimatr0n','Anarcho-Transhuman','c_brighde','cmacis','MidDipper', 'EINARR_THE_BERSERKER']
-awfulReader = csv.reader(open('awfulPoints.csv', 'r'))
-awfulPoints = dict(x for x in awfulReader)
-awfulPoints = dict((k,int(v)) for k,v in awfulPoints.items())
-paganReader = csv.reader(open('paganTypes.csv', 'r'))
-paganTypes = dict(x for x in paganReader)    
+channel = "#HB_testing"
+botnick  = "HB"
+modList = ['jimr1603','Etherict','hrafnblod','UsurpedLettuce','RyderHiME','HereticHierophant','manimatr0n','Anarcho-Transhuman','c_brighde','cmacis','MidDipper', 'EINARR_THE_BERSERKER']
+##awfulReader = csv.reader(open('awfulPoints.csv', 'r'))
+##awfulPoints = dict(x for x in awfulReader)
+##awfulPoints = dict((k,int(v)) for k,v in awfulPoints.items())
+##paganReader = csv.reader(open('paganTypes.csv', 'r'))
+##paganTypes = dict(x for x in paganReader)    
 
 #refusing to "commandTree" because fuck trees.
-def commandSmallShrub(ircData, chan, listOfMods, ircs, awfulPoints, paganTypes):
+def commandSmallShrub(ircData, chan, listOfMods, ircs):
     logMsg(ircData)
     ircData = ircData.split(':')
     user = ircData[1].split('!')[0]
@@ -51,15 +52,17 @@ def commandSmallShrub(ircData, chan, listOfMods, ircs, awfulPoints, paganTypes):
         elif "go fight" in command:
             fightSomething(command, chan, ircs)
         elif "give" in command.lower() and "awful point" in command.lower():
-            awfulPoints = giveAwfulPoints(command, chan, user, awfulPoints, ircs)
+            giveAwfulPoints(command, chan, user, ircs)
         elif "how many awful points does" in command.lower():
-            getUserAwfulPoints(command, chan, awfulPoints, ircs)
+            getUserAwfulPoints(command, chan, ircs)
         elif "show me the awful scores" in command.lower():
-            listAwfulScores(awfulPoints, chan, ircs)
+            listAwfulScores(chan, ircs)
         elif re.match('^((?!who)\S+) is (.+)', command.strip(), flags=re.IGNORECASE):
-            paganTypes = assignPaganType(command, chan, paganTypes, ircs)
-        elif "what type of pagan is" in command.lower() or "what kind of pagan is" in command.lower() or "what sort of pagan is" in command.lower() or "who is" in command.lower():
-            retrievePaganType(command, chan, paganTypes, ircs)
+            paganTypes = assignPaganType(command, chan, ircs)
+        elif "what type of pagan is" in command.lower() or "what kind of pagan is" in command.lower() or "what sort of pagan is" in command.lower() or "who is" in command.lower() or "what is" in command.lower():
+            retrievePaganType(command, chan, ircs)
+##        elif "who are the" in command.lower():
+##            retrievePagansOfType(command, chan, ircs)
         elif (command.strip() == 'die' or command.strip() == 'stop' or command.strip() == 'quit' or command.strip() == 'kill') and (user in listOfMods):
             sys.exit()
         else:
@@ -97,10 +100,9 @@ while 1:
         joinChan(channel, ircsock)
     if botnick.lower() + "," in message.lower() or botnick.lower() + ":" in message.lower():
         try:
-            commandSmallShrub(message, channel, modList, ircsock, awfulPoints, paganTypes)
+            commandSmallShrub(message, channel, modList, ircsock)
         except SystemExit:
-            saveDictToFile('awfulpoints.csv', awfulPoints)
-            saveDictToFile('paganTypes.csv', paganTypes)
+            close_database()
             logMsg(sys.exc_info())
             sys.exit()
         except:

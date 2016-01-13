@@ -8,29 +8,10 @@ import operator
 import csv
 import datetime
 
-logging.basicConfig(filename='log' + str(datetime.datetime.now().date()) + '.log',level=logging.INFO)
+from pagan_database import *
+from IRC_functions import *
 
-def logMsg(msg):
-    logging.info(str(datetime.datetime.now()) + ": " + str(msg))
 
-#respond to server pings
-def ping(pingData, ircs):
-    pong = "PONG :" + pingData
-    logMsg(pong)
-    pong = pong + '\r\n'
-    ircs.send(pong.encode('utf-8'))
-
-#send private message
-def sendChanMsg(chan, msg, ircs):
-    logMsg("Sending message: " + msg)
-    ircs.send(("PRIVMSG " + chan + " :" + msg + "\r\n").encode('utf-8'))
-
-#join a channel
-def joinChan(chan, ircs):
-    ircs.send(("JOIN " + chan + "\r\n").encode('utf-8'))
-    
-def mute(periodToMute):
-    time.sleep(periodToMute)
     
 #Convert temperatures    
 def convertFahrenheitToCelsius(tempToConvert, chan, ircs):
@@ -136,10 +117,10 @@ def singSong(chan, ircs):
 	numberToSelect = random.randint(-1, len(songs))
 	sendChanMsg(chan, songs[numberToSelect], ircs)
 	
-def saveDictToFile(fileName, dictToSave):
-    fileWriter = csv.writer(open(fileName, 'w', newline=''))
-    for dictKey, dictValue in dictToSave.items():
-        fileWriter.writerow([dictKey, dictValue])
+##def saveDictToFile(fileName, dictToSave):
+##    fileWriter = csv.writer(open(fileName, 'w', newline=''))
+##    for dictKey, dictValue in dictToSave.items():
+##        fileWriter.writerow([dictKey, dictValue])
 
 def muteBot(command):
     periodToMute = command.split(' ')[-1]
@@ -181,33 +162,22 @@ def fightSomething(command, chan, ircs):
     termToFight = pattern.sub("", termToFight).strip()
     sendChanMsg(chan, termToFight + ", you are a nithing, I challenge you to holmgang! On an island! With tigers!", ircs)
 
-def giveAwfulPoints(command, chan, user, awfulPoints, ircs):
+def giveAwfulPoints(command, chan, user, ircs):
     pointee = command.split(" ")[1]
-    points = int(command.split(" ")[2])
-    if pointee in awfulPoints:
-        awfulPoints[pointee] = awfulPoints[pointee] + points                
-    else:
-        awfulPoints[pointee] = points
+    points = float(command.split(" ")[2])
+    give_awfulpoints(pointee, points, chan, ircs)
+    
     sendChanMsg(chan, user + " has given " + pointee + " " + str(points) + " awful points!", ircs)
-    sendChanMsg(chan, pointee + " now has " + str(awfulPoints[pointee]) + " awful points!", ircs)
-    return awfulPoints
+    get_awfulpoints(pointee, chan, ircs)
 
-def getUserAwfulPoints(command, chan, awfulPoints, ircs):
+def getUserAwfulPoints(command, chan, ircs):
     pointee = command.split(" ")[5]
-    if pointee in awfulPoints:
-        points = awfulPoints[pointee]
-    else:
-        points = 0
-    sendChanMsg(chan, pointee + " has " + str(points) + " awful points!", ircs)
+    get_awfulpoints(pointee, chan, ircs)
 
-def listAwfulScores(awfulPoints, chan, ircs):
-    sortedScores = sorted(awfulPoints.items(), key=operator.itemgetter(1))
-    sortedScores.reverse()
-    sendChanMsg(chan, "Scoreboard:", ircs)
-    for user, score in sortedScores:
-        sendChanMsg(chan, user + ": " + str(score), ircs)
+def listAwfulScores(chan, ircs):
+    get_all_awfulpoints(chan, ircs)
 
-def assignPaganType(command, chan, paganTypes, ircs):
+def assignPaganType(command, chan, ircs):
     splitCommand = command.split(" ")
     personInQuestion = splitCommand[0]
     paganType = ""
@@ -218,14 +188,12 @@ def assignPaganType(command, chan, paganTypes, ircs):
     else:
         sendChanMsg(chan, personInQuestion + " is wrong.", ircs)
     paganType = paganType.strip()
-    paganTypes[personInQuestion] = paganType
-    return paganTypes
+    create_wight(personInQuestion, paganType)
+    
 
-def retrievePaganType(command, chan, paganTypes, ircs):
+def retrievePaganType(command, chan,ircs):
     personInQuestion = command.strip("?").split(" ")[-1]
-    msg = personInQuestion + " is "
-    if personInQuestion in paganTypes:
-        msg += paganTypes[personInQuestion]
-    else:
-        msg += "an unregistered pagan. Please apprehend them immediately for enhanced heathen interrogation techniques."
-    sendChanMsg(chan, msg, ircs)
+    get_pagan(personInQuestion, chan,ircs)
+
+def retrievePagansOfType(command, chan, ircs):
+    list_pagantype(command[-1], chan, ircs)
