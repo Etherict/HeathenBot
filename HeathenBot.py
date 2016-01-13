@@ -13,23 +13,20 @@ from IRC_functions import *
 server = "irc.esper.net"
 channel = "#pagan"
 botnick  = "HeathenBot"
-modList = ['jimr1603','Etherict','hrafnblod','UsurpedLettuce','RyderHiME','HereticHierophant','manimatr0n','Anarcho-Transhuman','c_brighde','cmacis','MidDipper', 'EINARR_THE_BERSERKER']
-##awfulReader = csv.reader(open('awfulPoints.csv', 'r'))
-##awfulPoints = dict(x for x in awfulReader)
-##awfulPoints = dict((k,int(v)) for k,v in awfulPoints.items())
-##paganReader = csv.reader(open('paganTypes.csv', 'r'))
-##paganTypes = dict(x for x in paganReader)    
+modList = ['jimr1603','Etherict','hrafnblod','UsurpedLettuce','RyderHiME','HereticHierophant','manimatr0n','c_brighde','cmacis','MidDipper']
 
-#refusing to "commandTree" because fuck trees.
-def commandSmallShrub(ircData, chan, listOfMods, ircs):
+def commandTree(ircData, chan, listOfMods, ircs):
     logMsg(ircData)
     ircData = ircData.split(':')
+    chan = ircData[1].split(' ')[2]
     user = ircData[1].split('!')[0]
     ircData = ircData[-1].split(',')
     command = ircData[-1]
     command = command.strip('.').strip()
     logMsg("Command received: " + command)
     logMsg('USER parsed as ' + user)
+    if chan == 'HeathenBot':
+        chan = user
     if user != 'HeathenBot':
         if "convert" in command.lower():
             convertTemperatures(command, chan, ircs)
@@ -66,7 +63,7 @@ def commandSmallShrub(ircData, chan, listOfMods, ircs):
         elif (command.strip() == 'die' or command.strip() == 'stop' or command.strip() == 'quit' or command.strip() == 'kill') and (user in listOfMods):
             sys.exit()
         else:
-            sendChanMsg(channel, user + ", you're wrong, go read some lore.", ircs)
+            sendChanMsg(chan, user + ", you're wrong, go read some lore.", ircs)
 
 
 nickString = "NICK " + botnick + "\r\n"
@@ -100,7 +97,7 @@ while 1:
         joinChan(channel, ircsock)
     if botnick.lower() + "," in message.lower() or botnick.lower() + ":" in message.lower():
         try:
-            commandSmallShrub(message, channel, modList, ircsock)
+            commandTree(message, channel, modList, ircsock)
         except SystemExit:
             close_database()
             logMsg(sys.exc_info())
