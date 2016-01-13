@@ -31,7 +31,7 @@ def list_pagantype(definition, chan, ircs):
 def get_pagan(name, chan, ircs):
   c.execute("SELECT Definition FROM pagans WHERE Name = ?",[name])
   try:
-    sendChanMsg(chan, name +" is a "+c.fetchone()[0], ircs)
+    sendChanMsg(chan, name +" is "+c.fetchone()[0], ircs)
   except:
     sendChanMsg(chan, name+" is not a registered pagan. Probably a filthy eclectic.", ircs)
     
@@ -48,14 +48,18 @@ def get_all_awfulpoints(chan, ircs):
         msg = row[0] + " : " + str(row[1])
         sendChanMsg(chan, msg, ircs)
     
-def give_awfulpoints(name, points, chan, ircs):
+def give_awfulpoints(name, points, chan, ircs, trycount = 0):
   rows=c.execute("SELECT AwfulPoints FROM pagans WHERE Name = ?",[name])
   try: 
     points+=rows.fetchone()[0]
     c.execute("UPDATE  pagans SET AwfulPoints = ? WHERE Name = ?", [points, name])
     conn.commit()
   except:
-    sendChanMsg(chan, "Tried to update AwfulPoints of a non-existent Wight", ircs)
+    if(trycount < 1):
+        create_wight(name, "an unregistered pagan")
+        give_awfulpoints(name, points, chan, ircs, 1)
+    else:
+        sendChanMsg(chan, "I can't do it.", ircs)
 
 def remove_wight(name, chan, ircs):
   try:
