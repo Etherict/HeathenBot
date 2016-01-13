@@ -45,7 +45,8 @@ def get_awfulpoints(name, chan, ircs):
 def get_all_awfulpoints(chan, ircs):
     rows=c.execute("SELECT Name, Awfulpoints FROM pagans")
     for row in rows:
-        sendChanMsg(chan, row, ircs)
+        msg = row[0] + " : " + row[1]
+        sendChanMsg(chan, msg, ircs)
     
 def give_awfulpoints(name, points, chan, ircs):
   rows=c.execute("SELECT AwfulPoints FROM pagans WHERE Name = ?",[name])

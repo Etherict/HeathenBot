@@ -116,11 +116,6 @@ def singSong(chan, ircs):
 	]
 	numberToSelect = random.randint(-1, len(songs))
 	sendChanMsg(chan, songs[numberToSelect], ircs)
-	
-##def saveDictToFile(fileName, dictToSave):
-##    fileWriter = csv.writer(open(fileName, 'w', newline=''))
-##    for dictKey, dictValue in dictToSave.items():
-##        fileWriter.writerow([dictKey, dictValue])
 
 def muteBot(command):
     periodToMute = command.split(' ')[-1]
