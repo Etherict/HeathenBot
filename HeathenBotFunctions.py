@@ -201,6 +201,10 @@ def findUrlTitle(command, chan, ircs):
     url=[]
     for i in command:
         if "www" in i or "http" in i:
+            i.split(':')
+            i = i[-1]
+            i.strip('//')
+            i.strip('/')
             url.append(i)
     for i in url:
         http = urllib3.PoolManager()
