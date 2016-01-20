@@ -97,7 +97,7 @@ while 1:
         ircsock.send(nickString.encode('utf-8'))
         ircsock.send(('PRIVMSG NickServ :IDENTIFY HeathenBot1\r\n').encode('utf-8'))
         joinChan(channel, ircsock)
-    if "PRIVMSG" in message and not(botnick.lower() + "," in message.lower() or botnick.lower() + ":" in message.lower()):
+    if "PRIVMSG" in message and not "#" in message and not(botnick.lower() + "," in message.lower() or botnick.lower() + ":" in message.lower()):
         message = botnick + ", " + message
     if botnick.lower() + "," in message.lower() or botnick.lower() + ":" in message.lower():
         try:
