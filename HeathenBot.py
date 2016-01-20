@@ -62,6 +62,8 @@ def commandTree(ircData, chan, listOfMods, ircs):
             retrievePaganType(command, chan, ircs)
 ##        elif "who are the" in command.lower():
 ##            retrievePagansOfType(command, chan, ircs)
+        elif "www" in command.lower() or "http:" in command.lower():
+            findUrlTitle(command, chan, ircs)
         elif (command.strip() == 'die' or command.strip() == 'stop' or command.strip() == 'quit' or command.strip() == 'kill') and (user in listOfMods):
             sys.exit()
         else:
@@ -97,6 +99,8 @@ while 1:
         ircsock.send(nickString.encode('utf-8'))
         ircsock.send(('PRIVMSG NickServ :IDENTIFY HeathenBot1\r\n').encode('utf-8'))
         joinChan(channel, ircsock)
+    if "PRIVMSG" in message and ("www" in message or "http" in message):
+        message = botnick + ", " + message
     if "PRIVMSG" in message and not "#" in message and not(botnick.lower() + "," in message.lower() or botnick.lower() + ":" in message.lower()):
         message = botnick + ", " + message
     if botnick.lower() + "," in message.lower() or botnick.lower() + ":" in message.lower():

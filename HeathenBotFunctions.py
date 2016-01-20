@@ -7,6 +7,9 @@ import re
 import operator
 import csv
 import datetime
+import urllib3
+
+from bs4 import BeautifulSoup
 
 from pagan_database import *
 from IRC_functions import *
@@ -192,3 +195,18 @@ def retrievePaganType(command, chan,ircs):
 
 def retrievePagansOfType(command, chan, ircs):
     list_pagantype(command[-1], chan, ircs)
+
+def findUrlTitle(command, chan, ircs):
+    command = command.split(' ')
+    url=[]
+    for i in command:
+        if "www" in i or "http" in i:
+            url.append(i)
+    for i in url:
+        http = urllib3.PoolManager()
+        r = http.request("GET", i)
+        html = r.data
+        soup = BeautifulSoup(html, "html.parser")
+        sendChanMsg(chan, soup.title.string, ircs)
+        #print(soup.title.string)
+            

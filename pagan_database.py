@@ -67,6 +67,7 @@ def remove_wight(name, chan, ircs):
     conn.commit()
   except:
     sendChanMsg(chan, "Tried to remove a non-existent wight", ircs)
+
 def close_database():
   conn.close()
 
