@@ -101,7 +101,7 @@ while 1:
         joinChan(channel, ircsock)
     if "PRIVMSG" in message and ("www" in message or "http" in message):
         message = botnick + ", " + message
-    if "PRIVMSG" in message and not "#" in message and not(botnick.lower() + "," in message.lower() or botnick.lower() + ":" in message.lower()):
+    elif "PRIVMSG" in message and not "#" in message and not(botnick.lower() + "," in message.lower() or botnick.lower() + ":" in message.lower()):
         message = botnick + ", " + message
     if botnick.lower() + "," in message.lower() or botnick.lower() + ":" in message.lower():
         try:
