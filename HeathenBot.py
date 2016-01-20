@@ -16,13 +16,13 @@ botnick  = "HeathenBot"
 modList = ['jimr1603','Etherict','hrafnblod','UsurpedLettuce','RyderHiME','HereticHierophant','manimatr0n','c_brighde','cmacis','MidDipper']
 
 def commandTree(ircData, chan, listOfMods, ircs):
-    logMsg(ircData)
+    logMsg("Full data is: " + ircData)
     chan = ircData.split(':')[1].split(' ')[2]
-    logMsg(chan)
-    user = ircData.split(':')[1].split('!')[2]
-    logMsg(user)
+    logMsg("Channel is: " + chan)
+    user = ircData.split(':')[1].split('!')[0]
+    logMsg("User is: " + user)
     command = ",".join(ircData.split(',').pop(0))
-    logMsg(command)
+    logMsg("Command is: " + command)
     command = command.strip('.').strip()
     logMsg("Command received: " + command)
     logMsg('USER parsed as ' + user)
