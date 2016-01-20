@@ -25,8 +25,10 @@ def commandTree(ircData, chan, listOfMods, ircs):
     command = command.strip('.').strip()
     logMsg("Command received: " + command)
     logMsg('USER parsed as ' + user)
+    #logMsg('Chan parsed as ' + chan)
     if chan == 'HeathenBot':
         chan = user
+
     if user != 'HeathenBot':
         if "convert" in command.lower():
             convertTemperatures(command, chan, ircs)
@@ -95,6 +97,8 @@ while 1:
         ircsock.send(nickString.encode('utf-8'))
         ircsock.send(('PRIVMSG NickServ :IDENTIFY HeathenBot1\r\n').encode('utf-8'))
         joinChan(channel, ircsock)
+    if "PRIVMSG" in message and not(botnick.lower() + "," in message.lower() or botnick.lower() + ":" in message.lower()):
+        message = botnick + ", " + message
     if botnick.lower() + "," in message.lower() or botnick.lower() + ":" in message.lower():
         try:
             commandTree(message, channel, modList, ircsock)
