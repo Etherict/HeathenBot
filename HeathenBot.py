@@ -18,8 +18,11 @@ modList = ['jimr1603','Etherict','hrafnblod','UsurpedLettuce','RyderHiME','Heret
 def commandTree(ircData, chan, listOfMods, ircs):
     logMsg(ircData)
     chan = ircData.split(':')[1].split(' ')[2]
+    logMsg(chan)
     user = ircData.split(':')[1].split('!')[2]
+    logMsg(user)
     command = ",".join(ircData.split(',').pop(0))
+    logMsg(command)
     command = command.strip('.').strip()
     logMsg("Command received: " + command)
     logMsg('USER parsed as ' + user)
