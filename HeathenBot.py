@@ -21,7 +21,8 @@ def commandTree(ircData, chan, listOfMods, ircs):
     logMsg("Channel is: " + chan)
     user = ircData.split(':')[1].split('!')[0]
     logMsg("User is: " + user)
-    command = ",".join(ircData.split(',').pop(0))
+    ircData.split(',').pop(0)
+    command = ",".join(ircData)
     logMsg("Command is: " + command)
     command = command.strip('.').strip()
     logMsg("Command received: " + command)
