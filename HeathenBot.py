@@ -11,28 +11,51 @@ from HeathenBotFunctions import *
 from IRC_functions import *
 
 server = "irc.esper.net"
-channel = "#pagan"
-botnick  = "HeathenBot"
+channel = "#hbtesting"
+botnick  = "HeathenBot2"
 modList = ['jimr1603','Etherict','hrafnblod','UsurpedLettuce','RyderHiME','HereticHierophant','manimatr0n','c_brighde','cmacis','MidDipper']
 
-def commandTree(ircData, chan, listOfMods, ircs):
+def decomposeMsg(ircData):
     logMsg("Full data is: " + ircData)
     chan = ircData.split(':')[1].split(' ')[2]
     logMsg("Channel is: " + chan)
     user = ircData.split(':')[1].split('!')[0]
     logMsg("User is: " + user)
-    ircData = ircData.split(',')
-    ircData.pop(0)
-    command = ",".join(ircData)
+    ircData = ircData.split(':')
+    commands=ircData[2:]
+    command=""
+    for c in commands:
+        command+=":"+c
+    command=command[1:]
+    #command = ",".join(ircData)
     logMsg("Command is: " + command)
     command = command.strip('.').strip()
     logMsg("Command received: " + command)
     logMsg('USER parsed as ' + user)
-    #logMsg('Chan parsed as ' + chan)
-    if chan == 'HeathenBot':
+    return (user, chan, command)
+
+def runCommand(user, chan, command, ircsock):
+    if(command.lower()[0:len(botnick)]==botnick.lower()):
+        command=command[len(botnick)+1:]
+        while command[0]==" ":
+            command=command[1:]
+    print(command[0:len(botnick)])
+    try:
+        commandTree(user, chan, command, ircsock)
+    except SystemExit:
+        close_database()
+        logMsg(sys.exc_info())
+        sys.exit()
+    except:
+        sendChanMsg(channel, "Good job, you broke me. Dumbass.", ircsock)
+        logMsg(sys.exc_info())
+
+def commandTree(user, chan, command, ircs):
+    logMsg("CommandTree running: "+command)
+    if chan == botnick:
         chan = user
 
-    if user != 'HeathenBot':
+    if user != botnick:
         if "convert" in command.lower():
             convertTemperatures(command, chan, ircs)
         elif "google" in command.lower():
@@ -43,12 +66,12 @@ def commandTree(ircData, chan, listOfMods, ircs):
             raiseCheers(chan, ircs)
         elif "sing me a song" in command.lower():            
             singSong(chan, ircs)
-        elif "be quiet" in command.lower() and user in listOfMods:
+        elif "be quiet" in command.lower() and user in modList:
             muteBot(command)
         elif "help" in command.lower():
-            sendHelpToUser(user, chan, listOfMods, ircs)
+            sendHelpToUser(user, chan, modList, ircs)
         elif "who's a mod" in command.lower().strip('?'):
-            listMods(chan, listOfMods, ircs)
+            listMods(chan, modList, ircs)
         elif "how do you feel about" in command.lower().strip('?'):
             tellYourFeels(command, chan, ircs)
         elif "go fight" in command:
@@ -60,14 +83,14 @@ def commandTree(ircData, chan, listOfMods, ircs):
         elif "show me the awful scores" in command.lower():
             listAwfulScores(chan, ircs)
         elif re.match('^((?!who)\S+) is (.+)', command.strip(), flags=re.IGNORECASE):
-            paganTypes = assignPaganType(command, chan, ircs)
+            assignPaganType(command, chan, ircs)
         elif "what type of pagan is" in command.lower() or "what kind of pagan is" in command.lower() or "what sort of pagan is" in command.lower() or "who is" in command.lower() or "what is" in command.lower():
             retrievePaganType(command, chan, ircs)
 ##        elif "who are the" in command.lower():
 ##            retrievePagansOfType(command, chan, ircs)
-        elif "www" in command.lower() or "http:" in command.lower():
+        elif "www" in command.lower() or "http" in command.lower():
             findUrlTitle(command, chan, ircs)
-        elif (command.strip() == 'die' or command.strip() == 'stop' or command.strip() == 'quit' or command.strip() == 'kill') and (user in listOfMods):
+        elif (command.strip() == 'die' or command.strip() == 'stop' or command.strip() == 'quit' or command.strip() == 'kill') and (user in modList):
             sys.exit()
         else:
             sendChanMsg(chan, user + ", you're wrong, go read some lore.", ircs)
@@ -87,8 +110,8 @@ while 1:
     ircmsg = ircsock.recv(2048)
     ircmsg = ircmsg.strip(('\r\n').encode('utf-8'))
     logMsg(ircmsg)
-    print(ircmsg)
     message = ''
+    user, chan, command = "","",""
     try:
         message = ircmsg.decode('utf-8')
     except:
@@ -102,17 +125,14 @@ while 1:
         ircsock.send(nickString.encode('utf-8'))
         ircsock.send(('PRIVMSG NickServ :IDENTIFY HeathenBot1\r\n').encode('utf-8'))
         joinChan(channel, ircsock)
-    if "PRIVMSG" in message and ("www" in message or "http" in message):
-        message = botnick + ", " + message
-    elif "PRIVMSG" in message and not "#" in message and not(botnick.lower() + "," in message.lower() or botnick.lower() + ":" in message.lower()):
-        message = botnick + ", " + message
-    if botnick.lower() + "," in message.lower() or botnick.lower() + ":" in message.lower():
+    else:
         try:
-            commandTree(message, channel, modList, ircsock)
-        except SystemExit:
-            close_database()
-            logMsg(sys.exc_info())
-            sys.exit()
-        except:
-            sendChanMsg(channel, "Good job, you broke me. Dumbass.", ircsock)
-            logMsg(sys.exc_info())
+            (user,chan,command)=decomposeMsg(message)
+        except Exception as err:
+            print(str(err))
+        if ("www." in command or "http" in command) and (chan.lower()==channel.lower()):
+            runCommand(user, chan, command, ircsock)
+        if(chan.lower()==channel.lower() and command[0:len(botnick)].lower()==botnick.lower()):
+            runCommand(user, chan, command, ircsock)
+        if (chan.lower()==botnick.lower()) and (user.lower()!="nickserv") and (" " not in user):
+            runCommand(user, chan, command, ircsock)
