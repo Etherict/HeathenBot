@@ -11,8 +11,8 @@ from HeathenBotFunctions import *
 from IRC_functions import *
 
 server = "irc.esper.net"
-channel = "#hbtesting"
-botnick  = "HeathenBot2"
+channel = "#pagan"
+botnick  = "HeathenBot"
 modList = ['jimr1603','Etherict','hrafnblod','UsurpedLettuce','RyderHiME','HereticHierophant','manimatr0n','c_brighde','cmacis','MidDipper']
 
 def decomposeMsg(ircData):
@@ -39,7 +39,6 @@ def runCommand(user, chan, command, ircsock):
         command=command[len(botnick)+1:]
         while command[0]==" ":
             command=command[1:]
-    print(command[0:len(botnick)])
     try:
         commandTree(user, chan, command, ircsock)
     except SystemExit:
