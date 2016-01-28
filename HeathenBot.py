@@ -11,8 +11,8 @@ from HeathenBotFunctions import *
 from IRC_functions import *
 
 server = "irc.esper.net"
-channel = "#pagan"
-botnick  = "HeathenBot"
+channel = "#hbtesting"
+botnick  = "HeathenBot2"
 modList = ['jimr1603','Etherict','hrafnblod','UsurpedLettuce','RyderHiME','HereticHierophant','manimatr0n','c_brighde','cmacis','MidDipper']
 
 def decomposeMsg(ircData):
@@ -80,12 +80,13 @@ def commandTree(user, chan, command, ircs):
         elif "how many awful points does" in command.lower():
             getUserAwfulPoints(command, chan, ircs)
         elif "show me the awful scores" in command.lower():
-            listAwfulScores(chan, ircs)
-        elif re.match('^((?!who)\S+) is (.+)', command.strip(), flags=re.IGNORECASE):
-            assignPaganType(command, chan, ircs)
+            listAwfulScores(user, ircs)
         elif "what type of pagan is" in command.lower() or "what kind of pagan is" in command.lower() or "what sort of pagan is" in command.lower() or "who is" in command.lower() or "what is" in command.lower():
             retrievePaganType(command, chan, ircs)
-##        elif "who are the" in command.lower():
+        #elif re.match('^((?!who)\S+) is (.+)', command.strip(), flags=re.IGNORECASE):
+        elif "is" in command.lower():
+            assignPaganType(command, chan, ircs)
+        ##        elif "who are the" in command.lower():
 ##            retrievePagansOfType(command, chan, ircs)
         elif "www" in command.lower() or "http" in command.lower():
             findUrlTitle(command, chan, ircs)
@@ -128,7 +129,8 @@ while 1:
         try:
             (user,chan,command)=decomposeMsg(message)
         except Exception as err:
-            print(str(err))
+            if str(err)!= ("list index out of range"):
+                logMsg(str(err))
         if ("www." in command or "http" in command) and (chan.lower()==channel.lower()):
             runCommand(user, chan, command, ircsock)
         if(chan.lower()==channel.lower() and command[0:len(botnick)].lower()==botnick.lower()):

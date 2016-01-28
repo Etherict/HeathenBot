@@ -14,7 +14,12 @@ from bs4 import BeautifulSoup
 from pagan_database import *
 from IRC_functions import *
 
-
+def stripSpaces(string):
+    while string[0]==" ":
+        string=string[1:]
+    while string[-1]==" ":
+        string=string[0:-1]
+    return string
     
 #Convert temperatures    
 def convertFahrenheitToCelsius(tempToConvert, chan, ircs):
@@ -119,6 +124,7 @@ def singSong(chan, ircs):
 	]
 	numberToSelect = random.randint(-1, len(songs))
 	sendChanMsg(chan, songs[numberToSelect], ircs)
+	findUrlTitle(songs[numberToSelect], chan, ircs)
 
 def muteBot(command):
     periodToMute = command.split(' ')[-1]
@@ -176,22 +182,24 @@ def listAwfulScores(chan, ircs):
     get_all_awfulpoints(chan, ircs)
 
 def assignPaganType(command, chan, ircs):
-    splitCommand = command.split(" ")
+    splitCommand = command.split("is")
     personInQuestion = splitCommand[0]
-    paganType = ""
-    for i in range(2, len(splitCommand)):
-        paganType += splitCommand[i] + " "
+    personInQuestion = stripSpaces(personInQuestion)
+    paganType = splitCommand[-1]
+    paganType = stripSpaces(paganType)
     if "heathen" in paganType.lower():
         sendChanMsg(chan, "Excellent, all is well.", ircs)
     else:
         sendChanMsg(chan, personInQuestion + " is wrong.", ircs)
-    paganType = paganType.strip()
+    #paganType = paganType.strip()
     create_wight(personInQuestion, paganType)
     
 
 def retrievePaganType(command, chan,ircs):
-    personInQuestion = command.strip("?").split(" ")[-1]
-    get_pagan(personInQuestion, chan,ircs)
+    person = command.strip("?")
+    person = person.split("is")[-1]
+    person = stripSpaces(person)
+    get_pagan(person, chan,ircs)
 
 def retrievePagansOfType(command, chan, ircs):
     list_pagantype(command[-1], chan, ircs)
