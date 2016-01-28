@@ -22,6 +22,11 @@ def dump_database():
   for row in c.execute(s):
     sendChanMsg(chan, row, ircs)
 
+def list_all_pagans(chan, ircs):
+  s=("SELECT * FROM pagans")
+  for row in c.execute(s):
+    sendChanMsg(chan, row[0] + " is " + row[1], ircs)
+
 def list_pagantype(definition, chan, ircs):
   s = "SELECT * FROM pagans"
   for row in c.execute(s):

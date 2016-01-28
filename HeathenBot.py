@@ -59,6 +59,8 @@ def commandTree(user, chan, command, ircs):
             convertTemperatures(command, chan, ircs)
         elif "google" in command.lower():
             google(command, chan, user, ircs)
+        elif "wiki" in command.lower():
+            wiki(command, chan, user, ircs)
         elif "give me a hammer" in command.lower():
             giveHammer(chan, ircs)
         elif "cheers" in command.lower():
@@ -81,6 +83,8 @@ def commandTree(user, chan, command, ircs):
             getUserAwfulPoints(command, chan, ircs)
         elif "show me the awful scores" in command.lower():
             listAwfulScores(user, ircs)
+        elif "who is everyone" in command.lower():
+            list_all_pagans(user, ircs)
         elif "what type of pagan is" in command.lower() or "what kind of pagan is" in command.lower() or "what sort of pagan is" in command.lower() or "who is" in command.lower() or "what is" in command.lower():
             retrievePaganType(command, chan, ircs)
         #elif re.match('^((?!who)\S+) is (.+)', command.strip(), flags=re.IGNORECASE):
