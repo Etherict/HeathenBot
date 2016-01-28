@@ -6,8 +6,11 @@ conn = sql.connect('pagantypes.db')
 
 c = conn.cursor()
 
-def create_table():
+def create_table_pagans():
   c.execute("CREATE TABLE pagans (Name VARCHAR, Definition VARCHAR, AwfulPoints FLOAT)")
+
+def create_table_messages():
+  c.execute("CREATE TABLE messages (Sender VARCHAR, Receiver VARCHAR, Message VARCHAR)")
 
 def create_wight(name, definition):
   rows = c.execute("SELECT * FROM pagans WHERE Name = ?", [name])
@@ -76,8 +79,25 @@ def remove_wight(name, chan, ircs):
 def close_database():
   conn.close()
 
+def retrieveMessage(chan, user, ircs):
+    rows = c.execute("Select * from messages where Receiver =?",[user])
+    for r in rows:
+      sender = r[0]
+      message = r[2]
+      sendChanMsg(chan, sender + " said: " + message, ircs)
+    c.execute("DELETE FROM messages where Receiver = ?",[user])
+
+def storeMessage(sender, receiver, msg, ircs):
+  c.execute("INSERT INTO messages (Sender, Receiver, Message) VALUES(?,?,?)",[sender, receiver, msg])
+
 try:
-    create_table()
-    logMsg("Created Database")
+    create_table_pagans()
+    logMsg("Created table Pagans")
 except:
-    logMsg("Database exists")
+    logMsg("Pagans exists")
+
+try:
+  create_table_messages()
+  logMsg("Created table Messages")
+except:
+  logMsg("Table Messages exists")

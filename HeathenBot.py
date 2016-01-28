@@ -11,8 +11,8 @@ from HeathenBotFunctions import *
 from IRC_functions import *
 
 server = "irc.esper.net"
-channel = "#pagan"
-botnick  = "HeathenBot"
+channel = "#hbtesting"
+botnick  = "HeathenBot2"
 modList = ['jimr1603','Etherict','hrafnblod','UsurpedLettuce','RyderHiME','HereticHierophant','manimatr0n','c_brighde','cmacis','MidDipper']
 
 def decomposeMsg(ircData):
@@ -94,6 +94,8 @@ def commandTree(user, chan, command, ircs):
 ##            retrievePagansOfType(command, chan, ircs)
         elif "www" in command.lower() or "http" in command.lower():
             findUrlTitle(command, chan, ircs)
+        elif "tell" in command.lower():
+            tellUser(command, user, chan, ircs)
         elif (command.strip() == 'die' or command.strip() == 'stop' or command.strip() == 'quit' or command.strip() == 'kill') and (user in modList):
             sys.exit()
         else:
@@ -135,9 +137,11 @@ while 1:
         except Exception as err:
             if str(err)!= ("list index out of range"):
                 logMsg(str(err))
-        if ("www." in command or "http" in command) and (chan.lower()==channel.lower()):
+        if "join" in message.lower():
+            retrieveMessage(chan, user, ircsock)
+        elif ("www." in command or "http" in command) and (chan.lower()==channel.lower()):
             runCommand(user, chan, command, ircsock)
-        if(chan.lower()==channel.lower() and command[0:len(botnick)].lower()==botnick.lower()):
+        elif(chan.lower()==channel.lower() and command[0:len(botnick)].lower()==botnick.lower()):
             runCommand(user, chan, command, ircsock)
-        if (chan.lower()==botnick.lower()) and (user.lower()!="nickserv") and (" " not in user):
+        elif (chan.lower()==botnick.lower()) and (user.lower()!="nickserv") and (" " not in user):
             runCommand(user, chan, command, ircsock)

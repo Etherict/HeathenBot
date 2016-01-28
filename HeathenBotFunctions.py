@@ -225,3 +225,15 @@ def findUrlTitle(command, chan, ircs):
         sendChanMsg(chan, soup.title.string, ircs)
         #print(soup.title.string)
             
+def tellUser(command, user, chan, ircs):
+    sender = user
+    command = command.split(" ")
+    receiver = command[1]
+    command = command[1:]
+    msg = ""
+    for c in command:
+        msg += c + " "
+    storeMessage(sender, receiver, msg, ircs)
+    sendChanMsg(chan, "I'll tell "+receiver + " your message", ircs)
+    
+    
