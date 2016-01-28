@@ -11,8 +11,8 @@ from HeathenBotFunctions import *
 from IRC_functions import *
 
 server = "irc.esper.net"
-channel = "#hbtesting"
-botnick  = "HeathenBot2"
+channel = "#pagan"
+botnick  = "HeathenBot"
 modList = ['jimr1603','Etherict','hrafnblod','UsurpedLettuce','RyderHiME','HereticHierophant','manimatr0n','c_brighde','cmacis','MidDipper']
 
 def decomposeMsg(ircData):
