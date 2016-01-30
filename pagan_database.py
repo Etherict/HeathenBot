@@ -77,6 +77,7 @@ def remove_wight(name, chan, ircs):
     sendChanMsg(chan, "Tried to remove a non-existent wight", ircs)
 
 def close_database():
+  conn.commit()
   conn.close()
 
 def retrieveMessage(chan, user, ircs):
@@ -86,10 +87,13 @@ def retrieveMessage(chan, user, ircs):
       message = r[2]
       sendChanMsg(chan, sender + " said: " + message, ircs)
     c.execute("DELETE FROM messages where Receiver = ?",[user])
+    conn.commit()
 
 def storeMessage(sender, receiver, msg, ircs):
   c.execute("INSERT INTO messages (Sender, Receiver, Message) VALUES(?,?,?)",[sender, receiver, msg])
+  conn.commit()
 
+  
 try:
     create_table_pagans()
     logMsg("Created table Pagans")
