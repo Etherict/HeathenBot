@@ -235,5 +235,22 @@ def tellUser(command, user, chan, ircs):
         msg += c + " "
     storeMessage(sender, receiver, msg, ircs)
     sendChanMsg(chan, "I'll tell "+receiver + " your message", ircs)
-    
+
+def rollDice(command, user, chan, ircs):
+    command = command.lower()
+    command = command.split("roll")[-1].strip(" ")
+    if "d" in command:
+        command = command.split("d")
+        try:
+            noDice = int(command[0])
+            sidesDice = int(command[-1])
+            rolls = []
+            for i in range(noDice):
+                rolls.append(random.randint(1,sidesDice))
+            sendChanMsg(chan, "I rolled: "+str(rolls), ircs)
+            sendChanMsg(chan, "Totalling "+str(sum(rolls)), ircs)
+        except:
+            sendChanMsg(chan, "Correct syntax is <number of dice>d<size of dice>", ircs)
+    else:
+        sendChanMsg(chan, "Correct syntax is <number of dice>d<size of dice>", ircs)
     

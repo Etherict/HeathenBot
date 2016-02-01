@@ -96,6 +96,8 @@ def commandTree(user, chan, command, ircs):
             findUrlTitle(command, chan, ircs)
         elif "tell" in command.lower():
             tellUser(command, user, chan, ircs)
+        elif "roll" in command.lower():
+            rollDice(command, user, chan, ircs)
         elif (command.strip() == 'die' or command.strip() == 'stop' or command.strip() == 'quit' or command.strip() == 'kill') and (user in modList):
             sys.exit()
         else:
