@@ -200,7 +200,7 @@ def assignPaganType(command, chan, ircs):
 
 def retrievePaganType(command, chan,ircs):
     person = command.strip("?")
-    person = person.split("is")[-1]
+    person = person.split(" is ")[-1]
     person = stripSpaces(person)
     get_pagan(person, chan,ircs)
 

@@ -88,7 +88,7 @@ def commandTree(user, chan, command, ircs):
         elif "what type of pagan is" in command.lower() or "what kind of pagan is" in command.lower() or "what sort of pagan is" in command.lower() or "who is" in command.lower() or "what is" in command.lower():
             retrievePaganType(command, chan, ircs)
         #elif re.match('^((?!who)\S+) is (.+)', command.strip(), flags=re.IGNORECASE):
-        elif "is" in command.lower():
+        elif " is " in command.lower():
             assignPaganType(command, chan, ircs)
         ##        elif "who are the" in command.lower():
 ##            retrievePagansOfType(command, chan, ircs)
