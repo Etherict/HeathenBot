@@ -185,7 +185,7 @@ def listAwfulScores(chan, ircs):
     get_all_awfulpoints(chan, ircs)
 
 def assignPaganType(command, chan, ircs):
-    splitCommand = command.split("is")
+    splitCommand = command.split(" is ")
     personInQuestion = splitCommand[0]
     personInQuestion = stripSpaces(personInQuestion)
     paganType = splitCommand[-1]
